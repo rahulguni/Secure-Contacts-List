@@ -1,0 +1,27 @@
+extends layout
+
+block thankyou
+    div(class="jumbotron thankyou-home", style="text-align:center;")
+        h1 Thank You For Your Information!
+        p Here is your information:
+        div(class="contact-info")
+            p= "Name: "+ current.fname + " " + current.lname
+            p= "Address: " + current.street + ", " + current.city
+            p= "State: " + current.state
+            p= "ZIP: " + current.zip
+            p= "Phone: " + current.phone
+            p= "Email: " + current.email
+
+            - var x = console.log(typeof(current.contactChk))
+            x
+            if current.contactChk == "anychk"
+                p Contact By: Any
+            else
+                if current.contactChk == "phonechk"
+                    p= "Contact by Phone: " + current.phone
+                if current.contactChk == "emailchk"
+                    p= "Contact by Email: " + current.email
+                if current.contactChk == "mailchk"
+                    p Contact by Mail: Yes
+        a(href="/mailer") Home Page
+    

@@ -1,0 +1,56 @@
+extends layout
+
+block contacts
+    div(id='contacts-main')
+        h1(class="contacts-header") Welcome to the Contacts Page.
+            <button id="sign-out-btn" type="button" class="btn btn-warning">Log Out</button>
+        div(class="list-class")
+            table(class="table")
+                thead(class="thead-dark")
+                    tr
+                        th(scope="col") First Name
+                        th(scope="col") Last Name
+                        th(scope="col") Phone Number
+                        th(scope="col") Email
+                        th(scope="col")
+                        th(scope="col") <button type="button" class="btn btn-primary" id="create-btn">Create</button>
+                    each val in peoples
+                        tr
+                            td= val.fname
+                            td= val.lname
+                            td= val.phone
+                            td= val.email
+                            td(class='update-btn')
+                                button(type="button", class="btn btn-success", id=val._id, onclick="updatefunc(this.id);" ) 
+                                    a(class="contacts-btn") Update
+                            td(class='delete-btn')
+                                button(type="button", class="btn btn-danger", id=val._id, onclick="deletefunc(this.id);")
+                                    a(class="contacts-btn") Delete
+        form(method="post" style="display:none;" id="deleteform" class="confirm-form")
+            h Are you sure you want to delete this contact?
+            div(class="row")
+                input(type="text", style="display:none;", id="delete_id", name="deleteid", required)
+                div(class="col")
+                    button(type="submit" id="yes_delete" class= "form-control btn btn-danger") Yes
+                div(class="col")
+                    button(type="button" id="no_delete" class="form-control btn btn-success" onclick="no_delete_func()") No
+
+        form(method="post" style="display:none;" id="updateform" class="confirm-form")
+            h Are you sure you want to update this contact?
+            div(class="row")
+                input(type="text", style="display:none;" id="update_id", name="updateid", required)
+                div(class="col")
+                    button(type="submit" id="yes_update" class= "form-control btn btn-danger") Yes
+                div(class="col")
+                    button(type="button" id="no_delete" class="form-control btn btn-success" onclick="no_delete_func()") No
+    h1(class="map-header") View Them On A Map! 
+    <div id="mapid">   
+    </div>
+    div(id="map-contacts" style="text-align: center;")
+        h(style="font-size: large;") People
+        ul(class="list-group")
+            each val in peoples
+                - var loc = val.lat.toString() + "," + val.lng.toString()
+                - var popup = loc + "popup"
+                li(class="list-group-item list-group-item-secondary contact-list" id=loc onclick= "flyMap(this.id)")=val.lname + ", " + val.fname + ": " + val.phone
+                    p(id=popup style="display:none;") #{val.lname}, #{val.fname} <br> #{val.city} #{val.state}
